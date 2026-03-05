@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mes.mapper.MaterialSupplierRelationMapper">
+
+    <!-- 根据物料ID删除中间表关联记录 -->
+    <delete id="deleteByMaterialId">
+        DELETE FROM material_supplier_relation
+        WHERE material_id = #{materialId}
+    </delete>
+
+</mapper>
