@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.mes.mapper.MaterialMapper">
+
+    <!-- 1. 分页查询SQL（保持不变） -->
+    <select id="selectByPage" resultType="com.mes.entity.Material">
+        SELECT * FROM material
+        <where>
+            <if test="query.materialCode != null and query.materialCode != ''">
+                AND material_code LIKE CONCAT('%', #{query.materialCode}, '%')
+            </if>
+            <if test="query.materialName != null and query.materialName != ''">
+                AND material_name LIKE CONCAT('%', #{query.materialName}, '%')
+            </if>
+            <if test="query.categoryId != null">
+                AND category_id = #{query.categoryId}
+            </if>
+            <if test="query.status != null and query.status != ''">
+                AND status = #{query.status}
+            </if>
+        </where>
+        ORDER BY update_time DESC
+    </select>
+
+    <!-- 3. 结果映射：仅保留物料主表+供应商ID列表，无warehouseName -->
+    <resultMap id="MaterialFullMap" type="com.mes.entity.Material">
+        <!-- 物料主表字段 -->
+        <id column="m_id" property="id"/>
+        <result column="m_material_code" property="materialCode"/>
+        <result column="m_material_name" property="materialName"/>
+        <result column="m_warehouse_id" property="warehouseId"/> <!-- 仅仓库ID -->
+        <result column="m_category_id" property="categoryId"/> <!-- 补充其他必要字段 -->
+        <result column="m_specification" property="specification"/>
+        <result column="m_unit" property="unit"/>
+        <result column="m_min_stock" property="minStock"/>
+        <result column="m_status" property="status"/>
+        <result column="m_is_critical" property="isCritical"/>
+
+        <!-- 供应商ID列表（子查询） -->
+        <collection
+                property="supplierIds"
+                ofType="java.lang.Long"
+                select="getSupplierIdsByMaterialId"
+                column="m_id"/>
+    </resultMap>
+
+    <!-- 4. 主查询：不查仓库名称 -->
+    <select id="getMaterialFullInfo" resultMap="MaterialFullMap">
+        SELECT
+        m.id AS m_id,
+        m.material_code AS m_material_code,
+        m.material_name AS m_material_name,
+        m.warehouse_id AS m_warehouse_id,
+        m.category_id AS m_category_id,
+        m.specification AS m_specification,
+        m.unit AS m_unit,
+        m.min_stock AS m_min_stock,
+        m.status AS m_status,
+        m.is_critical AS m_is_critical,
+        m.brand ,
+        m.description ,
+        m.purchase_price ,
+        m.stock_quantity
+        FROM material m
+        WHERE m.id = #{id}
+    </select>
+
+    <!-- 5. 子查询：根据物料ID查供应商ID列表（保持不变） -->
+    <select id="getSupplierIdsByMaterialId" resultType="java.lang.Long">
+        SELECT supplier_id
+        FROM material_supplier_relation
+        WHERE material_id = #{materialId}
+    </select>
+</mapper>
