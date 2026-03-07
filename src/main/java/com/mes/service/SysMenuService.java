@@ -1,14 +1,26 @@
 package com.mes.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.mes.dto.properties.SysMenu;
+import com.mes.entity.SysMenu;
 
 import java.util.List;
 
+/**
+ * 菜单服务接口
+ */
 public interface SysMenuService extends IService<SysMenu> {
-    List<SysMenu> getUserMenuTree(Long userId);
+    /**
+     * 查询所有菜单列表
+     */
+    List<SysMenu> selectMenuList();
 
-    boolean saveOrUpdateMenu(SysMenu menu);
+    /**
+     * 根据用户ID查询菜单列表
+     */
+    List<SysMenu> selectMenuListByUserId(Long userId);
 
-    boolean deleteMenu(Long menuId);
+    /**
+     * 构建菜单树形结构
+     */
+    List<SysMenu> buildMenuTree(List<SysMenu> menuList);
 }

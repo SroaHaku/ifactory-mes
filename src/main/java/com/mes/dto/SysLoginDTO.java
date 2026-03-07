@@ -1,13 +1,18 @@
-package com.mes.dto.request;
+package com.mes.dto;
 
 import lombok.Data;
 import javax.validation.constraints.NotBlank;
 
+/**
+ * 登录参数DTO
+ */
 @Data
-public class LoginRequest {
+public class SysLoginDTO {
+    /** 用户名 */
     @NotBlank(message = "用户名不能为空")
     private String username;
 
+    /** 密码 */
     @NotBlank(message = "密码不能为空")
     private String password;
 }
