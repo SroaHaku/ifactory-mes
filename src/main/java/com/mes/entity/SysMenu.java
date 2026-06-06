@@ -53,9 +53,4 @@ public class SysMenu implements Serializable {
     /** 逻辑删除 0-未删除 1-已删除 */
     @TableLogic
     private Integer delFlag;
-
-    // ========== 新增 children 字段 ==========
-    /** 子菜单列表（非数据库字段） */
-    @TableField(exist = false) // 标记为非数据库字段，避免MyBatisPlus映射
-    private List<SysMenu> children;
 }

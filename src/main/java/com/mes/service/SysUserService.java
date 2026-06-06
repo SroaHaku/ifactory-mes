@@ -33,4 +33,6 @@ public interface SysUserService extends IService<SysUser> {
      * 删除用户
      */
     boolean removeUserById(Long id);
+
+    boolean logout();
 }

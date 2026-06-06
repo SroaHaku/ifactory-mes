@@ -19,8 +19,9 @@ public interface SysMenuService extends IService<SysMenu> {
      */
     List<SysMenu> selectMenuListByUserId(Long userId);
 
-    /**
-     * 构建菜单树形结构
-     */
-    List<SysMenu> buildMenuTree(List<SysMenu> menuList);
+    boolean addMenu(SysMenu sysMenu);
+
+    boolean updateMenu(SysMenu sysMenu);
+
+    boolean deleteMenu(Long menuId);
 }

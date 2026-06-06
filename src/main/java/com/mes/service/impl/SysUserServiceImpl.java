@@ -96,4 +96,9 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     public boolean removeUserById(Long id) {
         return removeById(id);
     }
+
+    @Override
+    public boolean logout() {
+        return false;
+    }
 }

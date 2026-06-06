@@ -1,6 +1,7 @@
 package com.mes.controller;
 
 import com.mes.dto.SysLoginDTO;
+import com.mes.dto.response.Result;
 import com.mes.entity.SysUser;
 import com.mes.service.SysUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,20 @@ public class SysUserController {
     public Map<String, Object> login(@Validated @RequestBody SysLoginDTO loginDTO) {
         // 调用服务层，传递DTO中的参数
         return sysUserService.login(loginDTO.getUsername(), loginDTO.getPassword());
+    }
+
+    @PostMapping("/logout")
+    public Result<Void> logout() {
+        try {
+            boolean success = sysUserService.logout();
+            if (success) {
+                return Result.success();
+            } else {
+                return Result.fail(500, "登出失败！");
+            }
+        } catch (Exception e) {
+            return Result.fail(500, "登出异常：" + e.getMessage());
+        }
     }
 
     /**
