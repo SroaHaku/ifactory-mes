@@ -31,11 +31,11 @@ public class SysMenuController {
 
     @PostMapping("/add")
     public Result<Void> addMenu(@RequestBody SysMenu sysMenu) {
-        boolean success = sysMenuService.addMenu(sysMenu);
-        if (success) {
+        try {
+            boolean success = sysMenuService.addMenu(sysMenu);
             return Result.success();
-        } else {
-            return Result.fail(500, "新增菜单失败！");
+        }catch (Exception e) {
+            return Result.fail(500, e.getMessage());
         }
     }
 
@@ -44,15 +44,16 @@ public class SysMenuController {
      */
     @PutMapping("/update")
     public Result<Void> updateMenu(@RequestBody SysMenu sysMenu) {
-        if (sysMenu.getId() == null) {
-            return Result.fail(500, "菜单ID不能为空！");
-        }
-        boolean success = sysMenuService.updateMenu(sysMenu);
-        if (success) {
+        try {
+            if (sysMenu.getId() == null) {
+                return Result.fail(500, "菜单ID不能为空！");
+            }
+            boolean success = sysMenuService.updateMenu(sysMenu);
             return Result.success();
-        } else {
-            return Result.fail(500, "编辑菜单失败！");
+        }catch (Exception e) {
+            return Result.fail(500, e.getMessage());
         }
+
     }
 
     /**

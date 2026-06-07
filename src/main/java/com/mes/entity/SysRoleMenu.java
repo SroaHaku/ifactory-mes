@@ -13,7 +13,7 @@ import lombok.experimental.Accessors;
 
 /**
  * <p>
- * 菜单表
+ * 角色菜单关联表
  * </p>
  *
  * @author xuanyang
@@ -22,9 +22,9 @@ import lombok.experimental.Accessors;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-@TableName("sys_menu")
-@ApiModel(value="SysMenu对象", description="菜单表")
-public class SysMenu implements Serializable {
+@TableName("sys_role_menu")
+@ApiModel(value="SysRoleMenu对象", description="角色菜单关联表")
+public class SysRoleMenu implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -32,35 +32,14 @@ public class SysMenu implements Serializable {
     @TableId(value = "id", type = IdType.AUTO)
     private Long id;
 
-    @ApiModelProperty(value = "父菜单ID 0表示根菜单")
-    private Long parentId;
+    @ApiModelProperty(value = "角色ID 关联 sys_role.id")
+    private Long roleId;
 
-    @ApiModelProperty(value = "菜单名称")
-    private String menuName;
-
-    @ApiModelProperty(value = "菜单类型 0-目录 1-菜单 2-按钮")
-    private Integer menuType;
-
-    @ApiModelProperty(value = "路由地址")
-    private String path;
-
-    @ApiModelProperty(value = "组件路径")
-    private String component;
-
-    @ApiModelProperty(value = "权限标识")
-    private String perms;
-
-    @ApiModelProperty(value = "排序")
-    private Integer sort;
-
-    @ApiModelProperty(value = "状态 0-禁用 1-正常")
-    private Integer status;
+    @ApiModelProperty(value = "菜单ID 关联 sys_menu.id")
+    private Long menuId;
 
     @ApiModelProperty(value = "创建时间")
     private LocalDateTime createTime;
-
-    @ApiModelProperty(value = "更新时间")
-    private LocalDateTime updateTime;
 
     @ApiModelProperty(value = "逻辑删除 0-未删除 1-已删除")
     private Integer delFlag;

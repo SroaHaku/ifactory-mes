@@ -1,5 +1,6 @@
 package com.mes.service;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.mes.entity.SysUser;
 
@@ -35,4 +36,6 @@ public interface SysUserService extends IService<SysUser> {
     boolean removeUserById(Long id);
 
     boolean logout();
+
+    IPage<SysUser> getUserList(int currentPage, int pageSize);
 }

@@ -1,5 +1,6 @@
 package com.mes.entity;
 
+import java.math.BigDecimal;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -13,7 +14,7 @@ import lombok.experimental.Accessors;
 
 /**
  * <p>
- * 用户表
+ * BOM明细表
  * </p>
  *
  * @author xuanyang
@@ -22,9 +23,9 @@ import lombok.experimental.Accessors;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-@TableName("sys_user")
-@ApiModel(value="SysUser对象", description="用户表")
-public class SysUser implements Serializable {
+@TableName("mes_bom_detail")
+@ApiModel(value="MesBomDetail对象", description="BOM明细表")
+public class MesBomDetail implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -32,29 +33,22 @@ public class SysUser implements Serializable {
     @TableId(value = "id", type = IdType.AUTO)
     private Long id;
 
-    @ApiModelProperty(value = "用户名")
-    private String username;
+    @ApiModelProperty(value = "BOM主表ID")
+    private Long bomId;
 
-    @ApiModelProperty(value = "密码")
-    private String password;
+    @ApiModelProperty(value = "子物料ID")
+    private Long materialId;
 
-    @ApiModelProperty(value = "真实姓名")
-    private String realName;
+    @ApiModelProperty(value = "物料用量")
+    private BigDecimal materialNum;
 
-    @ApiModelProperty(value = "手机号")
-    private String phone;
+    @ApiModelProperty(value = "排序号")
+    private Integer sortNum;
 
-    @ApiModelProperty(value = "状态 0-禁用 1-正常")
-    private Integer status;
+    @ApiModelProperty(value = "逻辑删除")
+    private Integer isDelete;
 
-    @ApiModelProperty(value = "创建时间")
     private LocalDateTime createTime;
-
-    @ApiModelProperty(value = "更新时间")
-    private LocalDateTime updateTime;
-
-    @ApiModelProperty(value = "逻辑删除 0-未删除 1-已删除")
-    private Integer delFlag;
 
 
 }

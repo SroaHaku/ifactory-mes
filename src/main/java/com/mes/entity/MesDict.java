@@ -13,7 +13,7 @@ import lombok.experimental.Accessors;
 
 /**
  * <p>
- * 菜单表
+ * 数据字典表
  * </p>
  *
  * @author xuanyang
@@ -22,9 +22,9 @@ import lombok.experimental.Accessors;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-@TableName("sys_menu")
-@ApiModel(value="SysMenu对象", description="菜单表")
-public class SysMenu implements Serializable {
+@TableName("mes_dict")
+@ApiModel(value="MesDict对象", description="数据字典表")
+public class MesDict implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -32,38 +32,35 @@ public class SysMenu implements Serializable {
     @TableId(value = "id", type = IdType.AUTO)
     private Long id;
 
-    @ApiModelProperty(value = "父菜单ID 0表示根菜单")
-    private Long parentId;
+    @ApiModelProperty(value = "字典类型编码")
+    private String dictType;
 
-    @ApiModelProperty(value = "菜单名称")
-    private String menuName;
+    @ApiModelProperty(value = "字典名称")
+    private String dictLabel;
 
-    @ApiModelProperty(value = "菜单类型 0-目录 1-菜单 2-按钮")
-    private Integer menuType;
+    @ApiModelProperty(value = "字典值")
+    private String dictValue;
 
-    @ApiModelProperty(value = "路由地址")
-    private String path;
+    @ApiModelProperty(value = "排序号")
+    private Integer sortNum;
 
-    @ApiModelProperty(value = "组件路径")
-    private String component;
+    @ApiModelProperty(value = "备注")
+    private String remark;
 
-    @ApiModelProperty(value = "权限标识")
-    private String perms;
+    @ApiModelProperty(value = "逻辑删除 0-正常 1-删除")
+    private Integer isDelete;
 
-    @ApiModelProperty(value = "排序")
-    private Integer sort;
+    @ApiModelProperty(value = "创建人")
+    private String createUser;
 
-    @ApiModelProperty(value = "状态 0-禁用 1-正常")
-    private Integer status;
+    @ApiModelProperty(value = "更新人")
+    private String updateUser;
 
     @ApiModelProperty(value = "创建时间")
     private LocalDateTime createTime;
 
     @ApiModelProperty(value = "更新时间")
     private LocalDateTime updateTime;
-
-    @ApiModelProperty(value = "逻辑删除 0-未删除 1-已删除")
-    private Integer delFlag;
 
 
 }

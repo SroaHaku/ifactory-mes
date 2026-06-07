@@ -1,5 +1,6 @@
 package com.mes.controller;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.mes.dto.SysLoginDTO;
 import com.mes.dto.response.Result;
 import com.mes.entity.SysUser;
@@ -46,6 +47,15 @@ public class SysUserController {
     /**
      * 查询用户详情
      */
+    @GetMapping("/list")
+    public Result<IPage<SysUser>> getUserList(int currentPage, int pageSize) {
+        IPage<SysUser> page = sysUserService.getUserList(currentPage, pageSize);
+        return Result.success(page);
+    }
+
+    /**
+     * 查询用户详情
+     */
     @GetMapping("/{id}")
     public SysUser getUserById(@PathVariable Long id) {
         return sysUserService.getById(id);
@@ -55,23 +65,30 @@ public class SysUserController {
      * 新增用户
      */
     @PostMapping
-    public boolean saveUser(@RequestBody SysUser sysUser) {
-        return sysUserService.saveUser(sysUser);
+    public Result<?> saveUser(@RequestBody SysUser sysUser) {
+        try {
+            sysUserService.saveUser(sysUser);
+            return Result.success();
+        }catch (Exception e) {
+            return Result.fail(500,e.getMessage());
+        }
     }
 
     /**
      * 修改用户
      */
     @PutMapping
-    public boolean updateUser(@RequestBody SysUser sysUser) {
-        return sysUserService.updateUser(sysUser);
+    public Result<?> updateUser(@RequestBody SysUser sysUser) {
+        sysUserService.updateUser(sysUser);
+        return Result.success();
     }
 
     /**
      * 删除用户
      */
     @DeleteMapping("/{id}")
-    public boolean removeUser(@PathVariable Long id) {
-        return sysUserService.removeUserById(id);
+    public Result<?> removeUser(@PathVariable Long id) {
+        sysUserService.removeUserById(id);
+        return Result.success();
     }
 }

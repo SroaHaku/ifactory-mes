@@ -13,7 +13,7 @@ import lombok.experimental.Accessors;
 
 /**
  * <p>
- * 用户表
+ * 仓库信息表
  * </p>
  *
  * @author xuanyang
@@ -22,9 +22,9 @@ import lombok.experimental.Accessors;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-@TableName("sys_user")
-@ApiModel(value="SysUser对象", description="用户表")
-public class SysUser implements Serializable {
+@TableName("mes_warehouse")
+@ApiModel(value="MesWarehouse对象", description="仓库信息表")
+public class MesWarehouse implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -32,29 +32,31 @@ public class SysUser implements Serializable {
     @TableId(value = "id", type = IdType.AUTO)
     private Long id;
 
-    @ApiModelProperty(value = "用户名")
-    private String username;
+    @ApiModelProperty(value = "仓库编码(唯一)")
+    private String warehouseCode;
 
-    @ApiModelProperty(value = "密码")
-    private String password;
+    @ApiModelProperty(value = "仓库名称")
+    private String warehouseName;
 
-    @ApiModelProperty(value = "真实姓名")
-    private String realName;
+    @ApiModelProperty(value = "仓库类型 0-原料仓 1-成品仓 2-半成品仓 3-不良仓")
+    private Integer warehouseType;
 
-    @ApiModelProperty(value = "手机号")
-    private String phone;
+    @ApiModelProperty(value = "仓库地址")
+    private String address;
 
-    @ApiModelProperty(value = "状态 0-禁用 1-正常")
+    @ApiModelProperty(value = "状态 0-停用 1-正常")
     private Integer status;
 
-    @ApiModelProperty(value = "创建时间")
+    @ApiModelProperty(value = "逻辑删除")
+    private Integer isDelete;
+
+    private String createUser;
+
+    private String updateUser;
+
     private LocalDateTime createTime;
 
-    @ApiModelProperty(value = "更新时间")
     private LocalDateTime updateTime;
-
-    @ApiModelProperty(value = "逻辑删除 0-未删除 1-已删除")
-    private Integer delFlag;
 
 
 }

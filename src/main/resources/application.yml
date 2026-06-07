@@ -39,3 +39,8 @@ mybatis-plus:
 jwt:
   secret: mes@2026#secretKey
   expire: 7200 # token过期时间（秒）
+
+# 禁止直接修改的表
+db:
+  black-table:
+    list: sys_user,sys_role,sys_menu,sys_dict,t_log
