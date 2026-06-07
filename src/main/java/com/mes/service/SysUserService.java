@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.mes.entity.SysUser;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -23,7 +24,7 @@ public interface SysUserService extends IService<SysUser> {
     /**
      * 新增用户
      */
-    boolean saveUser(SysUser sysUser);
+    void saveUser(SysUser sysUser);
 
     /**
      * 修改用户
@@ -37,5 +38,15 @@ public interface SysUserService extends IService<SysUser> {
 
     boolean logout();
 
-    IPage<SysUser> getUserList(int currentPage, int pageSize);
+    IPage<SysUser> getUserList(Integer currentPage, Integer pageSize);
+
+    /**
+     * 给用户分配角色
+     */
+    boolean assignRole(Long userId, List<Long> roleIds);
+
+    /**
+     * 获取用户已分配的角色ID列表
+     */
+    List<Long> getUserRoleIds(Long userId);
 }

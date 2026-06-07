@@ -1,8 +1,10 @@
 package com.mes.service.impl;
 
+import cn.hutool.core.date.LocalDateTimeUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
 import com.mes.entity.SysMenu;
 import com.mes.exception.BusinessException;
 import com.mes.mapper.SysMenuMapper;
@@ -10,6 +12,7 @@ import com.mes.service.SysMenuService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.*;
 
 /**
@@ -43,8 +46,8 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
     public boolean addMenu(SysMenu menu) {
         // 设置默认值
         menu.setDelFlag(0); // 未删除
-        menu.setCreateTime(new Date());
-        menu.setUpdateTime(new Date());
+        menu.setCreateTime(LocalDateTime.now());
+        menu.setUpdateTime(LocalDateTime.now());
         // 保存菜单
         return save(menu);
     }
@@ -56,7 +59,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
     @Transactional(rollbackFor = Exception.class)
     public boolean updateMenu(SysMenu menu) {
         // 补充更新时间
-        menu.setUpdateTime(new Date());
+        menu.setUpdateTime(LocalDateTime.now());
         // 更新菜单（MyBatis-Plus会根据id更新）
         return updateById(menu);
     }

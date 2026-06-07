@@ -1,14 +1,15 @@
 package com.mes.controller;
 
-import com.mes.dto.SysLoginDTO;
 import com.mes.dto.response.Result;
 import com.mes.entity.SysMenu;
 import com.mes.service.SysMenuService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 菜单控制器
@@ -29,6 +30,42 @@ public class SysMenuController {
         return Result.success(menuList);
     }
 
+    /**
+     * 根据用户ID查询菜单树
+     */
+    @GetMapping("/tree/{userId}")
+    public Result<List<Map<String, Object>>> getMenuTreeByUserId(@PathVariable Long userId) {
+        List<SysMenu> menuList = sysMenuService.selectMenuListByUserId(userId);
+        List<Map<String, Object>> tree = buildMenuTree(menuList, 0L);
+        return Result.success(tree);
+    }
+
+    private List<Map<String, Object>> buildMenuTree(List<SysMenu> menuList, Long parentId) {
+        List<Map<String, Object>> tree = new ArrayList<>();
+        for (SysMenu menu : menuList) {
+            if (parentId.equals(menu.getParentId())) {
+                Map<String, Object> node = new HashMap<>();
+                node.put("id", menu.getId());
+                node.put("parentId", menu.getParentId());
+                node.put("menuName", menu.getMenuName());
+                node.put("menuType", menu.getMenuType());
+                node.put("path", menu.getPath());
+                node.put("component", menu.getComponent());
+                node.put("perms", menu.getPerms());
+                node.put("sort", menu.getSort());
+                node.put("status", menu.getStatus());
+                
+                List<Map<String, Object>> children = buildMenuTree(menuList, menu.getId());
+                if (!children.isEmpty()) {
+                    node.put("children", children);
+                }
+                
+                tree.add(node);
+            }
+        }
+        return tree;
+    }
+
     @PostMapping("/add")
     public Result<Void> addMenu(@RequestBody SysMenu sysMenu) {
         try {
@@ -39,9 +76,6 @@ public class SysMenuController {
         }
     }
 
-    /**
-     * 3. 编辑菜单
-     */
     @PutMapping("/update")
     public Result<Void> updateMenu(@RequestBody SysMenu sysMenu) {
         try {
@@ -53,12 +87,8 @@ public class SysMenuController {
         }catch (Exception e) {
             return Result.fail(500, e.getMessage());
         }
-
     }
 
-    /**
-     * 4. 删除菜单
-     */
     @DeleteMapping("/delete/{menuId}")
     public Result<Void> deleteMenu(@PathVariable Long menuId) {
         try {
@@ -69,7 +99,6 @@ public class SysMenuController {
                 return Result.fail(500, "删除菜单失败！");
             }
         } catch (RuntimeException e) {
-            // 捕获子菜单异常，返回友好提示
             return Result.fail(500, e.getMessage());
         }
     }
