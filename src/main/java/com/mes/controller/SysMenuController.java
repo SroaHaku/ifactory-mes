@@ -2,7 +2,10 @@ package com.mes.controller;
 
 import com.mes.dto.response.Result;
 import com.mes.entity.SysMenu;
+import com.mes.entity.SysRoleMenu;
+import com.mes.entity.dto.SysMenuDTO;
 import com.mes.service.SysMenuService;
+import com.mes.service.ISysRoleMenuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,12 +24,24 @@ public class SysMenuController {
     @Autowired
     private SysMenuService sysMenuService;
 
+    @Autowired
+    private ISysRoleMenuService sysRoleMenuService;
+
     /**
      * 查询所有菜单列表
      */
     @GetMapping("/list")
     public Result<List<SysMenu>> getMenuList() {
         List<SysMenu> menuList = sysMenuService.list();
+        return Result.success(menuList);
+    }
+
+    /**
+     * 查询所有菜单列表
+     */
+    @GetMapping("/getMenuList")
+    public Result<List<SysMenuDTO>> getMenuListCode() {
+        List<SysMenuDTO> menuList = sysMenuService.getMenuList();
         return Result.success(menuList);
     }
 
@@ -101,5 +116,21 @@ public class SysMenuController {
         } catch (RuntimeException e) {
             return Result.fail(500, e.getMessage());
         }
+    }
+
+    @PostMapping("/assignMenu/{roleId}")
+    public Result<Void> assignRoleMenu(@PathVariable Long roleId, @RequestBody List<Long> menuIds) {
+        try {
+            sysRoleMenuService.assignMenu(roleId, menuIds);
+            return Result.success();
+        } catch (Exception e) {
+            return Result.fail(500, e.getMessage());
+        }
+    }
+
+    @GetMapping("/roleMenuIds/{roleId}")
+    public Result<List<Long>> getRoleMenuIds(@PathVariable Long roleId) {
+        List<Long> menuIds = sysRoleMenuService.getMenuIdsByRoleId(roleId);
+        return Result.success(menuIds);
     }
 }

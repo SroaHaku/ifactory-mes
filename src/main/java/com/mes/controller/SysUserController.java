@@ -94,10 +94,4 @@ public class SysUserController {
         List<Long> roleIds = sysUserService.getUserRoleIds(userId);
         return Result.success(roleIds);
     }
-
-    @GetMapping("/roleList")
-    public Result<List<SysUserRole>> getRoleList() {
-        List<SysUserRole> roleList = sysUserRoleService.selectRoleList();
-        return Result.success(roleList);
-    }
 }

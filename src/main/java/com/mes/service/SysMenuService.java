@@ -2,6 +2,7 @@ package com.mes.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.mes.entity.SysMenu;
+import com.mes.entity.dto.SysMenuDTO;
 
 import java.util.List;
 
@@ -24,4 +25,6 @@ public interface SysMenuService extends IService<SysMenu> {
     boolean updateMenu(SysMenu sysMenu);
 
     boolean deleteMenu(Long menuId);
+
+    List<SysMenuDTO> getMenuList();
 }
